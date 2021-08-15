@@ -1,6 +1,7 @@
 import tkinter as tk
 from api import Soimort
 from storage import Csv
+import re
 
 
 class GuiTk(tk.Frame):
@@ -25,21 +26,34 @@ class GuiTk(tk.Frame):
 
         parent.bind("<Tab>", self.toggle_mode)
         self.entry.bind("<Return>", lambda e: self.get_translation())
+        self.entry_auxiliary.bind("<Return>", lambda e: self.save_translation())
 
     def get_translation(self):
 
         translations = self.api.translate(self.entry.get(), "en", "ru")
         saved_translations = self.storage.find(self.entry.get())
 
-        output = '\n'.join(translations)
+        output = ""
         for pair in saved_translations:
-            output += ' :: '.join(pair) + '\n'
+            output = output + (">> " + ' :: '.join(list(pair)) + '\n')
+        output = output + '\n'.join(translations) + '\n'
 
         self.text.configure(state=tk.NORMAL)
         self.text.delete("1.0", tk.END)
         self.text.insert(tk.INSERT, output)
         self.text.configure(state=tk.DISABLED)
         self.update()
+
+    def save_translation(self):
+        phrase = self.entry.get()
+        translation = self.entry_auxiliary.get()
+
+        re_spaces = r'(^[ \t]+|[ \t]+(?=:))'
+        f_phrase_emptry = len(re.sub(re_spaces, '', phrase)) == 0
+        f_translation_empty = len(re.sub(re_spaces, '', translation)) == 0
+
+        if not (f_phrase_emptry and f_translation_empty):
+            self.storage.write(phrase.strip(), translation.strip())
 
     def toggle_mode(self, *args, **kwargs):
         self.read_mode = not self.read_mode
