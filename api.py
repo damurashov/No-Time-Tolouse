@@ -57,7 +57,6 @@ class Soimort:
     def _extract_translation_subtrees(json_s):
         json_s = Soimort._extract_json(json_s)
         json_s = json.loads(json_s)
-        print(json_s)
         return Soimort._iterate([json_s])
 
     def translate(self, query, lang_from, lang_to):
