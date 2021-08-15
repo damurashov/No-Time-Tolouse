@@ -38,8 +38,7 @@ class Csv:
 		with open(self.filename, "r") as file_instance:
 			reader = csv.reader(file_instance)
 			for _, lang1, lang2 in reader:
-				print(lang2.lower())
-				if lang1.lower().find(query.lower()) or lang2.lower().find(query.lower()):
+				if lang1.lower().find(query.lower()) != -1 or lang2.lower().find(query.lower()) != -1:
 					results += [(lang1, lang2)]
 
 		return results
