@@ -81,7 +81,6 @@ class Soimort:
         return s
 
 
-
 if __name__ == "__main__":
     s = Soimort()
     print(s.translate(sys.argv[1], "en", "ru"))
