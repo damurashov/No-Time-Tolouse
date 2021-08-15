@@ -20,7 +20,7 @@ def command_output(command, verbose=False) -> str and int:
 	if verbose:
 		return "", proc.returncode
 
-	return proc.stdout.read().decode("unicode_escape"), proc.returncode
+	return proc.stdout.read().decode('utf-8'), proc.returncode
 
 
 def dialog_yn(text) -> bool:
