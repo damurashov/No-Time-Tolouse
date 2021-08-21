@@ -55,6 +55,10 @@ class GuiTk(tk.Frame):
         if not (f_phrase_emptry and f_translation_empty):
             self.storage.write(phrase.strip(), translation.strip())
 
+        self.entry.delete(0, tk.END)
+        self.entry_auxiliary.delete(0, tk.END)
+        self.set_read_mode(True)
+
     def toggle_mode(self, *args, **kwargs):
         self.read_mode = not self.read_mode
         self.set_read_mode(self.read_mode)
